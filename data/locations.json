@@ -358,10 +358,10 @@
     "categoria": "Costa",
     "subcategoria": "Aldeia sobre falésia",
     "coordenadas": {
-      "lat": 38.8664,
-      "lng": -9.4736
+      "lat": 38.8404,
+      "lng": -9.4622
     },
-    "googleMapsUrl": "https://www.google.com/maps?q=38.8664,-9.4736",
+    "googleMapsUrl": "https://www.google.com/maps?q=38.8404,-9.4622",
     "melhorEstacao": "Todo o ano",
     "melhorHora": "Golden hour",
     "interesseFotografico": 5,
@@ -1658,10 +1658,10 @@
     "categoria": "Costa",
     "subcategoria": "Ponto mais sudoeste da Europa",
     "coordenadas": {
-      "lat": 37.0206,
-      "lng": -8.9767
+      "lat": 37.0229105,
+      "lng": -8.9965214
     },
-    "googleMapsUrl": "https://www.google.com/maps?q=37.0206,-8.9767",
+    "googleMapsUrl": "https://www.google.com/maps?q=37.0229105,-8.9965214",
     "melhorEstacao": "Todo o ano",
     "melhorHora": "Golden hour",
     "interesseFotografico": 5,
@@ -2058,10 +2058,10 @@
     "categoria": "Fauna",
     "subcategoria": "Cratera vulcânica submersa junto à costa",
     "coordenadas": {
-      "lat": 37.7128,
-      "lng": -25.4267
+      "lat": 37.705652,
+      "lng": -25.4444947
     },
-    "googleMapsUrl": "https://www.google.com/maps?q=37.7128,-25.4267",
+    "googleMapsUrl": "https://www.google.com/maps?q=37.705652,-25.4444947",
     "melhorEstacao": "Verão",
     "melhorHora": "Meio do dia",
     "interesseFotografico": 4,
