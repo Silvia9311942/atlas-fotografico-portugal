@@ -96,6 +96,7 @@ Notas importantes:
 - `categoria` deve ser uma das: Jardim, Miradouro, Paisagem, Costa, Praia, Floresta, Cascata, Rio, Lagoa, Arquitetura histórica, Arquitetura moderna, Street photography, Fauna, Observação de aves, Fotografia noturna, Aldeia, Palácio, Castelo, Ruínas. (Se adicionares uma categoria nova, adiciona também um emoji em `CATEGORY_ICONS` no `core.js`.)
 - `melhorHora` deve ser uma das: Amanhecer, Manhã, Meio do dia, Tarde, Golden hour, Hora azul, Noite.
 - `melhorEstacao` pode ser Primavera, Verão, Outono, Inverno ou "Todo o ano".
+- `dificuldade` reflete **só o esforço físico** para chegar ao local e estar lá — trilho, subida, distância a pé, precisar de barco/caiaque/4x4. Não deve refletir bilhete com hora marcada, trânsito ou multidões: isso vive em `estacionamento` (quando é sobre estacionar) ou fica como dica em `notasFotograficas` (quando é sobre horários/multidões evitar).
 - Não é preciso guardar `visitado`, `favorito`, `rating` ou `notas pessoais` neste ficheiro — isso é estado pessoal e vive só no `localStorage` do teu navegador (secção seguinte).
 
 Depois de editar o JSON, basta recarregar a página (com o servidor local a correr) para ver as alterações — em qualquer uma das páginas (todas leem o mesmo ficheiro).

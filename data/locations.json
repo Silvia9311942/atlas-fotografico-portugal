@@ -315,7 +315,7 @@
     "melhorEstacao": "Primavera",
     "melhorHora": "Amanhecer",
     "interesseFotografico": 5,
-    "dificuldade": "Moderada",
+    "dificuldade": "Fácil",
     "entrada": "Paga",
     "estacionamento": "Difícil (parque pago)",
     "tempoMedioVisita": "2-3 horas",
@@ -765,7 +765,7 @@
     "melhorEstacao": "Todo o ano",
     "melhorHora": "Manhã",
     "interesseFotografico": 3,
-    "dificuldade": "Difícil",
+    "dificuldade": "Fácil",
     "entrada": "Paga",
     "estacionamento": "Difícil (centro)",
     "tempoMedioVisita": "1 hora",
@@ -1622,7 +1622,7 @@
     "objetivaPrincipal": "Canon EF-S 10-22mm f/3.5-4.5 USM (via adaptador EF-RF)",
     "objetivaSecundaria": "Canon RF-S 18-45mm f/4.5-6.3",
     "oQueFotografar": "Falésias douradas, arcos e grutas, água turquesa",
-    "notasFotograficas": "Chegar de manhã cedo evita multidões e dá luz mais suave nas falésias douradas."
+    "notasFotograficas": "Chegar de manhã cedo evita multidões e dá luz mais suave nas falésias douradas; o acesso à praia é por uma longa escadaria íngreme talhada na falésia."
   },
   {
     "id": "alg-004",
