@@ -10,6 +10,7 @@ window.Atlas = (function () {
 
   const STORAGE_KEY = "atlasFotografico.state.v1";
   const THEME_KEY = "atlasFotografico.theme";
+  const ROTEIRO_KEY = "atlasFotografico.roteiro.v1";
 
   const CATEGORY_ICONS = {
     "Jardim": "🌿", "Miradouro": "🔭", "Paisagem": "🏞️", "Costa": "🌊",
@@ -101,6 +102,95 @@ window.Atlas = (function () {
   }
 
   // ---------------------------------------------------------------------
+  // Roteiro (lista ordenada de locais para uma saída, em localStorage)
+  // ---------------------------------------------------------------------
+
+  function loadRoteiro() {
+    try {
+      const raw = localStorage.getItem(ROTEIRO_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (err) {
+      return [];
+    }
+  }
+
+  let roteiroIds = loadRoteiro();
+
+  function saveRoteiro() {
+    localStorage.setItem(ROTEIRO_KEY, JSON.stringify(roteiroIds));
+    document.dispatchEvent(new CustomEvent("atlas:roteiro-changed"));
+  }
+
+  function getRoteiroIds() {
+    return roteiroIds.slice();
+  }
+
+  function isInRoteiro(id) {
+    return roteiroIds.includes(id);
+  }
+
+  function addToRoteiro(id) {
+    if (!roteiroIds.includes(id)) {
+      roteiroIds.push(id);
+      saveRoteiro();
+    }
+  }
+
+  function removeFromRoteiro(id) {
+    roteiroIds = roteiroIds.filter((x) => x !== id);
+    saveRoteiro();
+  }
+
+  function toggleRoteiro(id) {
+    if (isInRoteiro(id)) removeFromRoteiro(id);
+    else addToRoteiro(id);
+    return isInRoteiro(id);
+  }
+
+  function setRoteiroOrder(newIds) {
+    roteiroIds = newIds.slice();
+    saveRoteiro();
+  }
+
+  function clearRoteiro() {
+    roteiroIds = [];
+    saveRoteiro();
+  }
+
+  function getRoteiroLocations(locations) {
+    const byId = new Map(locations.map((l) => [l.id, l]));
+    return roteiroIds.map((id) => byId.get(id)).filter(Boolean);
+  }
+
+  // Interpreta "1-2 horas", "30 minutos", "2 horas" em horas decimais {min,max}.
+  function parseTempoVisita(text) {
+    const numbers = ((text || "").match(/\d+/g) || []).map(Number);
+    if (numbers.length === 0) return { min: 0, max: 0 };
+    const isMinutos = /minuto/i.test(text);
+    let min = numbers[0];
+    let max = numbers.length > 1 ? numbers[1] : numbers[0];
+    if (isMinutos) { min /= 60; max /= 60; }
+    return { min, max };
+  }
+
+  function formatHours(hours) {
+    const totalMinutes = Math.round(hours * 60);
+    const h = Math.floor(totalMinutes / 60);
+    const m = totalMinutes % 60;
+    if (h === 0) return m + "min";
+    if (m === 0) return h + "h";
+    return h + "h" + String(m).padStart(2, "0");
+  }
+
+  function updateRoteiroBadge() {
+    const badge = document.getElementById("nav-roteiro-count");
+    if (!badge) return;
+    const count = roteiroIds.length;
+    badge.textContent = String(count);
+    badge.hidden = count === 0;
+  }
+
+  // ---------------------------------------------------------------------
   // Tema e navegação (comuns a todas as páginas)
   // ---------------------------------------------------------------------
 
@@ -121,6 +211,9 @@ window.Atlas = (function () {
   }
 
   function initMobileNav() {
+    updateRoteiroBadge();
+    document.addEventListener("atlas:roteiro-changed", updateRoteiroBadge);
+
     const btn = document.getElementById("btn-menu");
     const nav = document.getElementById("main-nav");
     if (!btn || !nav) return;
@@ -375,6 +468,9 @@ window.Atlas = (function () {
           '<button type="button" class="location-card__toggle location-card__toggle--fav' + (personal.favorite ? " is-active" : "") + '" ' +
             'aria-pressed="' + personal.favorite + '" aria-label="Marcar ' + escapeHtml(loc.nome) + ' como favorito">' +
             (personal.favorite ? "★" : "☆") + "</button>" +
+          '<button type="button" class="location-card__toggle location-card__toggle--roteiro' + (isInRoteiro(loc.id) ? " is-active" : "") + '" ' +
+            'aria-pressed="' + isInRoteiro(loc.id) + '" aria-label="Adicionar ' + escapeHtml(loc.nome) + ' ao roteiro">' +
+            (isInRoteiro(loc.id) ? "✓" : "➕") + "</button>" +
         "</div>" +
       "</div>" +
       '<a class="location-card__link" href="local.html?id=' + encodeURIComponent(loc.id) + '">' +
@@ -405,6 +501,14 @@ window.Atlas = (function () {
     }
     wireToggle(".location-card__toggle--visited", "visited", "✅", "☐");
     wireToggle(".location-card__toggle--fav", "favorite", "★", "☆");
+
+    const roteiroBtn = card.querySelector(".location-card__toggle--roteiro");
+    roteiroBtn.addEventListener("click", () => {
+      const inRoteiro = toggleRoteiro(loc.id);
+      roteiroBtn.classList.toggle("is-active", inRoteiro);
+      roteiroBtn.setAttribute("aria-pressed", String(inRoteiro));
+      roteiroBtn.textContent = inRoteiro ? "✓" : "➕";
+    });
 
     return card;
   }
@@ -453,6 +557,8 @@ window.Atlas = (function () {
   return {
     CATEGORY_ICONS, seasonNow, hourBucketNow,
     getPersonal, setPersonal, exportProgress, importProgress, clearProgress,
+    getRoteiroIds, isInRoteiro, addToRoteiro, removeFromRoteiro, toggleRoteiro,
+    setRoteiroOrder, clearRoteiro, getRoteiroLocations, parseTempoVisita, formatHours,
     initTheme, initMobileNav,
     loadLocations, showLoadError,
     escapeHtml, starString,

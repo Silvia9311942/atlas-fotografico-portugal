@@ -44,6 +44,7 @@
       '<div class="detail-actions">' +
         '<button class="btn" id="btn-visited">' + (personal.visited ? "✅ Visitado" : "☐ Marcar como visitado") + "</button>" +
         '<button class="btn btn--ghost" id="btn-favorite">' + (personal.favorite ? "★ Favorito" : "☆ Adicionar aos favoritos") + "</button>" +
+        '<button class="btn btn--ghost" id="btn-roteiro">' + (A.isInRoteiro(loc.id) ? "✓ No roteiro" : "➕ Adicionar ao roteiro") + "</button>" +
         '<a class="maps-link" href="' + loc.googleMapsUrl + '" target="_blank" rel="noopener">📍 Abrir no Google Maps</a>' +
       "</div>" +
 
@@ -115,6 +116,12 @@
       const favorite = !A.getPersonal(loc.id).favorite;
       A.setPersonal(loc.id, { favorite });
       btnFavorite.textContent = favorite ? "★ Favorito" : "☆ Adicionar aos favoritos";
+    });
+
+    const btnRoteiro = document.getElementById("btn-roteiro");
+    btnRoteiro.addEventListener("click", () => {
+      const inRoteiro = A.toggleRoteiro(loc.id);
+      btnRoteiro.textContent = inRoteiro ? "✓ No roteiro" : "➕ Adicionar ao roteiro";
     });
   }
 

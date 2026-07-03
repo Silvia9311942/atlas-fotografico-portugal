@@ -88,6 +88,8 @@
         '<button type="button" class="btn btn--ghost map-popup__toggle" data-field="favorite" aria-pressed="' + personal.favorite + '">' +
           toggleLabel("favorite", personal.favorite) + "</button>" +
       "</div>" +
+      '<button type="button" class="btn btn--ghost map-popup__roteiro" aria-pressed="' + A.isInRoteiro(loc.id) + '">' +
+        (A.isInRoteiro(loc.id) ? "✓ No roteiro" : "➕ Adicionar ao roteiro") + "</button>" +
       '<a class="btn map-popup__link" href="local.html?id=' + encodeURIComponent(loc.id) + '">Ver ficha completa →</a>';
 
     // Atualiza só este marcador e o próprio popup (sem reconstruir o mapa
@@ -101,6 +103,13 @@
         btn.textContent = toggleLabel(field, value);
         marker.setIcon(markerIconFor(loc));
       });
+    });
+
+    const roteiroBtn = wrapper.querySelector(".map-popup__roteiro");
+    roteiroBtn.addEventListener("click", () => {
+      const inRoteiro = A.toggleRoteiro(loc.id);
+      roteiroBtn.setAttribute("aria-pressed", String(inRoteiro));
+      roteiroBtn.textContent = inRoteiro ? "✓ No roteiro" : "➕ Adicionar ao roteiro";
     });
 
     return wrapper;

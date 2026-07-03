@@ -54,8 +54,13 @@ Se abrires o ficheiro e vires uma mensagem a dizer que os locais não carregaram
 - **Início (`index.html`)** — dashboard com total de locais, visitados, progresso, favoritos, contagens por distrito/categoria, e sugestões: local aleatório, locais ideais para a estação/hora atuais, e os teus favoritos.
 - **Mapa (`mapa.html`)** — mapa real (Leaflet + OpenStreetMap) com um marcador por local, cor diferente consoante o estado (por visitar / visitado / favorito), popup com resumo e link para a ficha completa, os mesmos filtros do Explorar, e atalhos para saltar entre Continente / Açores / Madeira.
 - **Explorar (`explorar.html`)** — lista filtrável e pesquisável de todos os locais, com ordenação (nome, rating, distrito, categoria, interesse fotográfico, não visitados primeiro) e impressão da lista filtrada.
-- **Local (`local.html?id=...`)** — ficha completa de um local: toda a informação, sugestões de composição, objetivas recomendadas, mini-mapa da localização exata, link para o Google Maps, e os controlos pessoais (visitado, favorito, rating, notas).
+- **Roteiro (`roteiro.html`)** — monta uma lista ordenada de locais para uma saída: soma o tempo médio de visita de cada um numa estimativa total, gera um link do Google Maps com todas as paragens em sequência, permite reordenar/remover locais e imprimir o roteiro.
+- **Local (`local.html?id=...`)** — ficha completa de um local: toda a informação, sugestões de composição, objetivas recomendadas, mini-mapa da localização exata, link para o Google Maps, e os controlos pessoais (visitado, favorito, roteiro, rating, notas).
 - **Área pessoal (`pessoal.html`)** — progresso pessoal, lista de visitados e de favoritos, e as ações de exportar/importar/limpar o progresso guardado.
+
+### Roteiro
+
+Em qualquer cartão (Explorar, Mapa, Início, Área pessoal) ou na ficha de um local há um botão ➕ para adicionar esse local ao roteiro atual — o número de locais aparece como distintivo junto a "Roteiro" no menu. Na página do Roteiro podes reordenar (↑/↓), remover, ver o tempo total estimado e abrir a rota completa no Google Maps com um clique. O roteiro guarda-se em `localStorage` (`atlasFotografico.roteiro.v1`), tal como o resto do progresso pessoal.
 
 ## Filtros disponíveis (Explorar e Mapa)
 

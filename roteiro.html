@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-PT" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Fotográfico de Portugal — Roteiro</title>
+<meta name="description" content="Monta o roteiro da tua próxima saída fotográfica.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+
+<header class="top-bar">
+  <div class="top-bar__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__icon" aria-hidden="true">📷</span>
+      <div class="brand__text">
+        <h1>Atlas Fotográfico de Portugal</h1>
+        <p>Continente · Açores · Madeira</p>
+      </div>
+    </a>
+    <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+      <a href="index.html">Início</a>
+      <a href="mapa.html">Mapa</a>
+      <a href="explorar.html">Explorar</a>
+      <a href="roteiro.html" class="is-current">Roteiro <span class="nav-badge" id="nav-roteiro-count" hidden>0</span></a>
+      <a href="pessoal.html">Área pessoal</a>
+    </nav>
+    <div class="top-bar__actions">
+      <button id="btn-theme" class="icon-btn" type="button" title="Alternar modo claro/escuro" aria-label="Alternar modo claro/escuro">🌙</button>
+      <button id="btn-menu" class="icon-btn hide-desktop" type="button" title="Abrir menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="roteiro-summary" aria-label="Resumo do roteiro">
+    <div class="stat-cards">
+      <div class="stat-card">
+        <span class="stat-card__value" id="roteiro-total">0</span>
+        <span class="stat-card__label">Locais no roteiro</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__value" id="roteiro-tempo">—</span>
+        <span class="stat-card__label">Tempo estimado de visita</span>
+      </div>
+    </div>
+    <div class="toolbar__row" id="roteiro-actions" hidden>
+      <a class="btn" id="roteiro-maps-link" href="#" target="_blank" rel="noopener">🗺️ Abrir rota no Google Maps</a>
+      <button class="btn btn--ghost" id="btn-roteiro-print" type="button">🖨️ Imprimir roteiro</button>
+      <button class="btn btn--danger" id="btn-roteiro-clear" type="button">🗑️ Limpar roteiro</button>
+    </div>
+  </section>
+
+  <section aria-label="Locais do roteiro">
+    <ol class="roteiro-list" id="roteiro-list"></ol>
+    <p class="empty-state" id="roteiro-empty" hidden>
+      Ainda não adicionaste nenhum local ao roteiro. Vai ao <a href="explorar.html">Explorar</a> ou ao <a href="mapa.html">Mapa</a>
+      e usa o botão ➕ nos cartões para começares a montar a tua saída.
+    </p>
+  </section>
+
+  <div id="print-view">
+    <h1>Atlas Fotográfico de Portugal — Roteiro</h1>
+    <p id="print-roteiro-tempo"></p>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Nome</th><th>Concelho</th><th>Distrito</th><th>Melhor hora</th><th>Tempo médio</th></tr>
+      </thead>
+      <tbody id="print-roteiro-body"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>Atlas Fotográfico de Portugal — planeador pessoal de saídas fotográficas.</p>
+  <p>Equipamento: Canon EOS R50 · RF-S 18-45mm · RF-S 55-210mm · EF 50mm f/1.8 (adaptado) · EF-S 10-22mm (adaptado)</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="roteiro.js"></script>
+</body>
+</html>

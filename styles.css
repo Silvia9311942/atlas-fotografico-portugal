@@ -218,6 +218,7 @@ main {
   margin-bottom: 0.6rem;
   align-items: center;
 }
+.toolbar__row[hidden] { display: none; }
 
 .search-input, .select {
   font-family: var(--font-body);
@@ -556,6 +557,7 @@ textarea.personal-notes {
 .map-popup p { margin: 0.2rem 0; font-size: 0.82rem; color: var(--text-muted); }
 .map-popup__actions { display: flex; gap: 0.35rem; margin-top: 0.5rem; }
 .map-popup__toggle { flex: 1; font-size: 0.72rem; padding: 0.4rem 0.5rem; white-space: nowrap; }
+.map-popup__roteiro { display: block; width: 100%; margin-top: 0.35rem; font-size: 0.72rem; padding: 0.4rem 0.5rem; }
 .map-popup__link { display: block; text-align: center; margin-top: 0.4rem; font-size: 0.8rem; }
 
 /* ---------- Área pessoal ---------- */
@@ -572,6 +574,73 @@ textarea.personal-notes {
   cursor: pointer;
 }
 .tab-btn.is-active { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent-dark); }
+
+/* ---------- Nav badge (contagem do roteiro) ---------- */
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 0.68rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.nav-badge[hidden] { display: none; }
+
+/* ---------- Roteiro ---------- */
+.roteiro-summary { margin-bottom: 1.5rem; }
+.roteiro-summary .stat-cards { grid-template-columns: repeat(2, 1fr); margin-bottom: 1rem; }
+
+.roteiro-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.roteiro-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 0.75rem 1rem;
+}
+.roteiro-item__index {
+  flex: 0 0 auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.roteiro-item__icon { flex: 0 0 auto; font-size: 1.6rem; }
+.roteiro-item__body { flex: 1; min-width: 0; }
+.roteiro-item__title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.roteiro-item__title:hover { color: var(--accent-dark); }
+.roteiro-item__place { margin: 0.1rem 0 0.4rem; font-size: 0.78rem; color: var(--text-muted); }
+.roteiro-item__actions { flex: 0 0 auto; display: flex; gap: 0.3rem; }
+.roteiro-item__actions .icon-btn:disabled { opacity: 0.35; cursor: default; }
 
 /* ---------- Utilitários ---------- */
 .hide-desktop { display: none; }
@@ -622,7 +691,8 @@ textarea.personal-notes {
 /* ---------- Impressão ---------- */
 @media print {
   .top-bar, .dashboard, .toolbar, .results-count, .locations-grid,
-  .empty-state, .site-footer, .skip-link, .back-link {
+  .empty-state, .site-footer, .skip-link, .back-link,
+  .roteiro-summary, .roteiro-list {
     display: none !important;
   }
   #print-view { display: block; }
