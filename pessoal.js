@@ -41,6 +41,8 @@
       A.clearProgress();
       renderAll();
     });
+
+    document.addEventListener("atlas:personal-changed", renderAll);
   }
 
   function renderAll() {

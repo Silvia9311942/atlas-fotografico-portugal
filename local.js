@@ -100,13 +100,18 @@
     notesEl.value = personal.notes;
     notesEl.addEventListener("input", () => A.setPersonal(loc.id, { notes: notesEl.value }));
 
-    document.getElementById("btn-visited").addEventListener("click", () => {
-      A.setPersonal(loc.id, { visited: !A.getPersonal(loc.id).visited });
-      render(loc, container);
+    const btnVisited = document.getElementById("btn-visited");
+    const btnFavorite = document.getElementById("btn-favorite");
+
+    btnVisited.addEventListener("click", () => {
+      const visited = !A.getPersonal(loc.id).visited;
+      A.setPersonal(loc.id, { visited });
+      btnVisited.textContent = visited ? "✅ Visitado" : "☐ Marcar como visitado";
     });
-    document.getElementById("btn-favorite").addEventListener("click", () => {
-      A.setPersonal(loc.id, { favorite: !A.getPersonal(loc.id).favorite });
-      render(loc, container);
+    btnFavorite.addEventListener("click", () => {
+      const favorite = !A.getPersonal(loc.id).favorite;
+      A.setPersonal(loc.id, { favorite });
+      btnFavorite.textContent = favorite ? "★ Favorito" : "☆ Adicionar aos favoritos";
     });
   }
 
