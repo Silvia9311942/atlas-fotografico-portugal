@@ -277,7 +277,15 @@ window.Atlas = (function () {
       };
     }
 
-    return { getFilters, refreshConcelhos };
+    function setFilters(partial) {
+      Object.keys(partial).forEach((key) => {
+        const el = document.getElementById(idFor(key));
+        if (el) el.value = partial[key];
+      });
+      if ("distrito" in partial) refreshConcelhos();
+    }
+
+    return { getFilters, refreshConcelhos, setFilters };
   }
 
   function locationMatchesSearch(loc, term) {
@@ -415,11 +423,17 @@ window.Atlas = (function () {
     return { total, visited, favorites, progress };
   }
 
-  function renderBreakdownList(ulEl, entries) {
+  function renderBreakdownList(ulEl, entries, linkParam) {
     ulEl.innerHTML = "";
     entries.forEach(([label, count]) => {
       const li = document.createElement("li");
-      li.innerHTML = "<strong>" + count + "</strong> " + escapeHtml(label);
+      const content = "<strong>" + count + "</strong> " + escapeHtml(label);
+      if (linkParam) {
+        li.innerHTML =
+          '<a href="explorar.html?' + linkParam + "=" + encodeURIComponent(label) + '">' + content + "</a>";
+      } else {
+        li.innerHTML = content;
+      }
       ulEl.appendChild(li);
     });
   }

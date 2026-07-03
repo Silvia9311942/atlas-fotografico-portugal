@@ -38,8 +38,8 @@
       },
       locations
     );
-    A.renderBreakdownList(document.getElementById("breakdown-distrito"), A.countBy(locations, "distrito"));
-    A.renderBreakdownList(document.getElementById("breakdown-categoria"), A.countBy(locations, "categoria"));
+    A.renderBreakdownList(document.getElementById("breakdown-distrito"), A.countBy(locations, "distrito"), "distrito");
+    A.renderBreakdownList(document.getElementById("breakdown-categoria"), A.countBy(locations, "categoria"), "categoria");
   }
 
   function showRandom(locations) {

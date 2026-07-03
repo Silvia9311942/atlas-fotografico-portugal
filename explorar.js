@@ -23,7 +23,8 @@
     document.getElementById("search-input").addEventListener("input", render);
     document.getElementById("sort-select").addEventListener("change", render);
     document.getElementById("btn-print").addEventListener("click", () => window.print());
-    document.getElementById("btn-toggle-filters").addEventListener("click", (e) => {
+    const toggleFiltersBtn = document.getElementById("btn-toggle-filters");
+    toggleFiltersBtn.addEventListener("click", (e) => {
       filtersPanel.hidden = !filtersPanel.hidden;
       e.target.setAttribute("aria-expanded", String(!filtersPanel.hidden));
       e.target.textContent = filtersPanel.hidden ? "Filtros ▾" : "Filtros ▴";
@@ -31,7 +32,22 @@
 
     document.addEventListener("atlas:personal-changed", render);
 
+    applyFiltersFromUrl(panelApi, toggleFiltersBtn, filtersPanel);
     render();
+  }
+
+  function applyFiltersFromUrl(panelApi, toggleFiltersBtn, filtersPanel) {
+    const params = new URLSearchParams(window.location.search);
+    const partial = {};
+    ["distrito", "categoria"].forEach((key) => {
+      if (params.has(key)) partial[key] = params.get(key);
+    });
+    if (Object.keys(partial).length === 0) return;
+
+    panelApi.setFilters(partial);
+    filtersPanel.hidden = false;
+    toggleFiltersBtn.setAttribute("aria-expanded", "true");
+    toggleFiltersBtn.textContent = "Filtros ▴";
   }
 
   function render() {
