@@ -68,27 +68,51 @@
     });
   }
 
-  function popupHtml(loc) {
+  function toggleLabel(field, value) {
+    if (field === "visited") return value ? "✅ Visitado" : "☐ Marcar visitado";
+    return value ? "★ Favorito" : "☆ Favorito";
+  }
+
+  function buildPopupContent(loc, marker) {
     const personal = A.getPersonal(loc.id);
-    return (
-      '<div class="map-popup">' +
+    const wrapper = document.createElement("div");
+    wrapper.className = "map-popup";
+    wrapper.innerHTML =
       "<strong>" + A.escapeHtml(loc.nome) + "</strong>" +
       '<p>' + A.escapeHtml(loc.concelho) + ", " + A.escapeHtml(loc.distrito) + "</p>" +
       '<p class="map-popup__meta">' + A.escapeHtml(loc.categoria) + " · " + A.escapeHtml(loc.melhorHora) + "</p>" +
       '<div class="stars">' + A.starString(loc.interesseFotografico) + "</div>" +
-      (personal.visited ? '<p class="map-popup__visited">✅ Visitado</p>' : "") +
-      '<a class="btn btn--ghost map-popup__link" href="local.html?id=' + encodeURIComponent(loc.id) + '">Ver ficha completa →</a>' +
-      "</div>"
-    );
+      '<div class="map-popup__actions">' +
+        '<button type="button" class="btn btn--ghost map-popup__toggle" data-field="visited" aria-pressed="' + personal.visited + '">' +
+          toggleLabel("visited", personal.visited) + "</button>" +
+        '<button type="button" class="btn btn--ghost map-popup__toggle" data-field="favorite" aria-pressed="' + personal.favorite + '">' +
+          toggleLabel("favorite", personal.favorite) + "</button>" +
+      "</div>" +
+      '<a class="btn map-popup__link" href="local.html?id=' + encodeURIComponent(loc.id) + '">Ver ficha completa →</a>';
+
+    // Atualiza só este marcador e o próprio popup (sem reconstruir o mapa
+    // todo), para o popup não se fechar ao clicar num dos botões.
+    wrapper.querySelectorAll(".map-popup__toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const field = btn.dataset.field;
+        const value = !A.getPersonal(loc.id)[field];
+        A.setPersonal(loc.id, { [field]: value });
+        btn.setAttribute("aria-pressed", String(value));
+        btn.textContent = toggleLabel(field, value);
+        marker.setIcon(markerIconFor(loc));
+      });
+    });
+
+    return wrapper;
   }
 
   function renderMarkers() {
     markerLayer.clearLayers();
     const filtered = A.filterLocations(locations, getFilters());
     filtered.forEach((loc) => {
-      L.marker([loc.coordenadas.lat, loc.coordenadas.lng], { icon: markerIconFor(loc) })
-        .bindPopup(popupHtml(loc))
-        .addTo(markerLayer);
+      const marker = L.marker([loc.coordenadas.lat, loc.coordenadas.lng], { icon: markerIconFor(loc) });
+      marker.bindPopup(buildPopupContent(loc, marker));
+      marker.addTo(markerLayer);
     });
     document.getElementById("results-count").textContent = filtered.length + " de " + locations.length + " locais no mapa";
   }

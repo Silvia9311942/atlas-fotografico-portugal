@@ -363,36 +363,48 @@ window.Atlas = (function () {
     card.className = "location-card";
     card.dataset.id = loc.id;
 
+    // Os botões de estado ficam fora do <a> — HTML não permite controlos
+    // interativos aninhados dentro de outro (ex: <button> dentro de <a>).
     card.innerHTML =
-      '<a class="location-card__link" href="local.html?id=' + encodeURIComponent(loc.id) + '">' +
       '<div class="location-card__banner">' +
         "<span>" + icon + "</span>" +
-        '<span class="location-card__toggle location-card__toggle--fav ' + (personal.favorite ? "is-active" : "") + '" ' +
-          'title="Favorito">' + (personal.favorite ? "★" : "☆") + "</span>" +
-      "</div>" +
-      '<div class="location-card__body">' +
-        '<h3 class="location-card__title">' + escapeHtml(loc.nome) + "</h3>" +
-        '<p class="location-card__place">' + escapeHtml(loc.concelho) + ", " + escapeHtml(loc.distrito) +
-          (loc.freguesia ? " · " + escapeHtml(loc.freguesia) : "") + "</p>" +
-        '<div class="badge-row">' +
-          '<span class="badge">' + escapeHtml(loc.categoria) + "</span>" +
-          '<span class="badge">' + escapeHtml(loc.melhorHora) + "</span>" +
-          '<span class="badge">' + escapeHtml(loc.entrada) + "</span>" +
-          (personal.visited ? '<span class="badge badge--visited">Visitado</span>' : "") +
+        '<div class="location-card__toggles">' +
+          '<button type="button" class="location-card__toggle location-card__toggle--visited' + (personal.visited ? " is-active" : "") + '" ' +
+            'aria-pressed="' + personal.visited + '" aria-label="Marcar ' + escapeHtml(loc.nome) + ' como visitado">' +
+            (personal.visited ? "✅" : "☐") + "</button>" +
+          '<button type="button" class="location-card__toggle location-card__toggle--fav' + (personal.favorite ? " is-active" : "") + '" ' +
+            'aria-pressed="' + personal.favorite + '" aria-label="Marcar ' + escapeHtml(loc.nome) + ' como favorito">' +
+            (personal.favorite ? "★" : "☆") + "</button>" +
         "</div>" +
-        '<div class="stars" title="Interesse fotográfico">' + starString(loc.interesseFotografico) + "</div>" +
       "</div>" +
+      '<a class="location-card__link" href="local.html?id=' + encodeURIComponent(loc.id) + '">' +
+        '<div class="location-card__body">' +
+          '<h3 class="location-card__title">' + escapeHtml(loc.nome) + "</h3>" +
+          '<p class="location-card__place">' + escapeHtml(loc.concelho) + ", " + escapeHtml(loc.distrito) +
+            (loc.freguesia ? " · " + escapeHtml(loc.freguesia) : "") + "</p>" +
+          '<div class="badge-row">' +
+            '<span class="badge">' + escapeHtml(loc.categoria) + "</span>" +
+            '<span class="badge">' + escapeHtml(loc.melhorHora) + "</span>" +
+            '<span class="badge">' + escapeHtml(loc.entrada) + "</span>" +
+            (personal.visited ? '<span class="badge badge--visited">Visitado</span>' : "") +
+          "</div>" +
+          '<div class="stars" title="Interesse fotográfico">' + starString(loc.interesseFotografico) + "</div>" +
+        "</div>" +
       "</a>";
 
-    card.querySelector(".location-card__toggle--fav").addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setPersonal(loc.id, { favorite: !getPersonal(loc.id).favorite });
-      const isFav = getPersonal(loc.id).favorite;
-      e.target.classList.toggle("is-active", isFav);
-      e.target.textContent = isFav ? "★" : "☆";
-      document.dispatchEvent(new CustomEvent("atlas:personal-changed"));
-    });
+    function wireToggle(selector, field, iconOn, iconOff) {
+      const btn = card.querySelector(selector);
+      btn.addEventListener("click", () => {
+        const value = !getPersonal(loc.id)[field];
+        setPersonal(loc.id, { [field]: value });
+        btn.classList.toggle("is-active", value);
+        btn.setAttribute("aria-pressed", String(value));
+        btn.textContent = value ? iconOn : iconOff;
+        document.dispatchEvent(new CustomEvent("atlas:personal-changed"));
+      });
+    }
+    wireToggle(".location-card__toggle--visited", "visited", "✅", "☐");
+    wireToggle(".location-card__toggle--fav", "favorite", "★", "☆");
 
     return card;
   }

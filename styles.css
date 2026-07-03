@@ -332,7 +332,9 @@ main {
   color: #fff;
   position: relative;
 }
+.location-card__toggles { display: flex; gap: 0.4rem; }
 .location-card__toggle {
+  font-family: inherit;
   background: rgba(255,255,255,0.85);
   border: none;
   border-radius: 50%;
@@ -345,6 +347,7 @@ main {
   justify-content: center;
 }
 .location-card__toggle.is-active { background: #fff; }
+.location-card__toggle:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
 
 .location-card__body { padding: 0.85rem 0.95rem 1rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
 .location-card__title { font-size: 1.02rem; font-family: var(--font-heading); }
@@ -442,9 +445,18 @@ main {
 .detail-grid .detail-item { font-size: 0.85rem; }
 .detail-grid .detail-item span { display: block; color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
 
-.rating-picker { display: inline-flex; gap: 0.15rem; font-size: 1.3rem; cursor: pointer; }
-.rating-picker__star { color: var(--border); }
+.rating-picker { display: inline-flex; gap: 0.15rem; }
+.rating-picker__star {
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--border);
+}
 .rating-picker__star.is-filled { color: var(--accent); }
+.rating-picker__star:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
 
 textarea.personal-notes {
   width: 100%;
@@ -540,10 +552,11 @@ textarea.personal-notes {
 .map-marker--visited { background: #2f7a4d; }
 .map-marker--favorite { background: #d4a017; }
 
-.map-popup { min-width: 180px; }
+.map-popup { min-width: 200px; }
 .map-popup p { margin: 0.2rem 0; font-size: 0.82rem; color: var(--text-muted); }
-.map-popup__visited { color: #2f7a4d !important; font-weight: 600; }
-.map-popup__link { display: inline-block; margin-top: 0.5rem; font-size: 0.8rem; }
+.map-popup__actions { display: flex; gap: 0.35rem; margin-top: 0.5rem; }
+.map-popup__toggle { flex: 1; font-size: 0.72rem; padding: 0.4rem 0.5rem; white-space: nowrap; }
+.map-popup__link { display: block; text-align: center; margin-top: 0.4rem; font-size: 0.8rem; }
 
 /* ---------- Área pessoal ---------- */
 .personal-tabs { margin-top: 0.5rem; }

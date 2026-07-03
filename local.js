@@ -83,15 +83,18 @@
     function renderStars(current) {
       ratingEl.innerHTML = "";
       for (let i = 1; i <= 5; i++) {
-        const span = document.createElement("span");
-        span.className = "rating-picker__star" + (i <= current ? " is-filled" : "");
-        span.textContent = i <= current ? "★" : "☆";
-        span.addEventListener("click", () => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rating-picker__star" + (i <= current ? " is-filled" : "");
+        btn.textContent = i <= current ? "★" : "☆";
+        btn.setAttribute("aria-pressed", String(i <= current));
+        btn.setAttribute("aria-label", i + " de 5 estrelas");
+        btn.addEventListener("click", () => {
           const newRating = A.getPersonal(loc.id).rating === i ? 0 : i;
           A.setPersonal(loc.id, { rating: newRating });
           renderStars(newRating);
         });
-        ratingEl.appendChild(span);
+        ratingEl.appendChild(btn);
       }
     }
     renderStars(personal.rating);
